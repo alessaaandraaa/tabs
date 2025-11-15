@@ -1,0 +1,28 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model subscriptions {
+  subscription_id Int      @id @default(autoincrement())
+  name            String   @db.VarChar(255)
+  type            String   @db.VarChar(255)
+  frequency       String   @db.VarChar(255)
+  price           Decimal  @db.Decimal(10, 0)
+  renewal_date    DateTime @db.Date
+  user_id         Int
+  users           users    @relation(fields: [user_id], references: [user_id], onUpdate: Restrict, map: "user_id")
+
+  @@index([user_id], map: "user_id")
+}
+
+model users {
+  user_id       Int             @id @default(autoincrement())
+  username      String          @db.VarChar(255)
+  password      String          @db.VarChar(255)
+  subscriptions subscriptions[]
+}
