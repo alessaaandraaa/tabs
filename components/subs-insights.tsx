@@ -1,7 +1,8 @@
-import { getSubsQuery } from "@/queries/subscriptions.queries";
+import { getOngoingSubsQuery } from "@/queries/subscriptions.queries";
+import { formatToPHP } from "@/lib/helpers";
 
 export default function SubInsights() {
-  const { data: fetchedSubs = [], error, isLoading } = getSubsQuery();
+  const { data: fetchedSubs = [], error, isLoading } = getOngoingSubsQuery();
 
   let weekly = 0;
   let monthly = 0;
@@ -25,14 +26,14 @@ export default function SubInsights() {
   return (
     <div>
       <h1>
-        <b>Average Weekly Payments: </b> {weekly}
+        <b>Average Weekly Payments: </b> {formatToPHP(weekly)}
       </h1>
       <h1>
-        <b>Average Monthly Payments: </b> {monthly}
+        <b>Average Monthly Payments: </b> {formatToPHP(monthly)}
       </h1>
       <h1>
         <b>Average Yearly Payments: </b>
-        {yearly}
+        {formatToPHP(yearly)}
       </h1>
     </div>
   );

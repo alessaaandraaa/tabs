@@ -3,9 +3,22 @@ import { NextResponse } from "next/server";
 
 const subsService = new SubscriptionsService();
 
-export async function GET() {
-  const subs = await subsService.getSubscriptions();
-  return NextResponse.json({ subs, count: subs.length }, { status: 200 });
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const statusParam = searchParams.get("status");
+
+    if (statusParam == "ongoing") {
+      const subs = await subsService.getOngoingSubscriptions();
+      return NextResponse.json({ subs, count: subs.length }, { status: 200 });
+    } else if (statusParam == "expired") {
+      const subs = await subsService.getExpiredSubscriptions();
+      return NextResponse.json({ subs, count: subs.length }, { status: 200 });
+    }
+  } catch (error) {
+    console.error("Error fetching subscriptions: ", error);
+    return NextResponse.json({ error }, { status: 500 });
+  }
 }
 
 export async function POST(req: Request) {

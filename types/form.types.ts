@@ -19,6 +19,8 @@ export const formSchema = z.object({
     }),
   price: z.number(),
   renewal_date: z.iso.date(),
+  auto_renew: z.boolean(),
+  free_trial: z.boolean(),
 });
 
 export const editSchema = z.object({
@@ -44,6 +46,8 @@ export const editSchema = z.object({
     }),
   price: z.number(),
   renewal_date: z.iso.date(),
+  auto_renew: z.boolean(),
+  free_trial: z.boolean(),
 });
 
 export type FormPayload = z.infer<typeof formSchema>;

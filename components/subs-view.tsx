@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SubsList from "@/components/sub-list";
 import SubsSummary from "@/components/subs-summary";
+import CalendarView from "./calendar-view";
 
 export default function SubsView() {
   return (
@@ -21,12 +22,16 @@ export default function SubsView() {
         <TabsList>
           <TabsTrigger value="summary">Summary View</TabsTrigger>
           <TabsTrigger value="list">List View</TabsTrigger>
+          <TabsTrigger value="calendar">Calendar View</TabsTrigger>
         </TabsList>
         <TabsContent value="summary">
           <SubsSummary />
         </TabsContent>
         <TabsContent value="list">
           <SubsList />
+        </TabsContent>
+        <TabsContent value="calendar">
+          <CalendarView />
         </TabsContent>
       </Tabs>
     </div>

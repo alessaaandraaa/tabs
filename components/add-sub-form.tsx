@@ -6,6 +6,7 @@ import { formSchema } from "@/types/form.types";
 import { useAddSubsQuery } from "@/queries/subscriptions.queries";
 import { FormPayload } from "@/types/form.types";
 import * as z from "zod";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -63,6 +64,8 @@ export default function AddSubForm() {
       frequency: "",
       price: 0 | NaN,
       renewal_date: "",
+      auto_renew: false,
+      free_trial: false,
     },
     validators: {
       onSubmit: formSchema,
@@ -74,6 +77,8 @@ export default function AddSubForm() {
         frequency: value.frequency,
         price: value.price,
         renewal_date: value.renewal_date,
+        auto_renew: value.auto_renew,
+        free_trial: value.free_trial,
       };
 
       console.log("DATA: ", data);
@@ -276,6 +281,60 @@ export default function AddSubForm() {
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
                       )}
+                    </Field>
+                  </div>
+                );
+              }}
+            />
+            <form.Field
+              name="auto_renew"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <div className="mt-3">
+                    <Field orientation="horizontal" data-invalid={isInvalid}>
+                      <Checkbox
+                        id="form-tanstack-checkbox-responses"
+                        name={field.name}
+                        checked={field.state.value}
+                        onCheckedChange={(checked) =>
+                          field.handleChange(checked === true)
+                        }
+                      />
+                      <FieldLabel
+                        htmlFor="form-tanstack-checkbox-responses"
+                        className="font-normal"
+                      >
+                        Auto-Renew
+                      </FieldLabel>
+                    </Field>
+                  </div>
+                );
+              }}
+            />
+            <form.Field
+              name="free_trial"
+              children={(field) => {
+                const isInvalid =
+                  field.state.meta.isTouched && !field.state.meta.isValid;
+                return (
+                  <div className="mt-3">
+                    <Field orientation="horizontal" data-invalid={isInvalid}>
+                      <Checkbox
+                        id="form-tanstack-checkbox-responses"
+                        name={field.name}
+                        checked={field.state.value}
+                        onCheckedChange={(checked) =>
+                          field.handleChange(checked === true)
+                        }
+                      />
+                      <FieldLabel
+                        htmlFor="form-tanstack-checkbox-responses"
+                        className="font-normal"
+                      >
+                        Free Trial?
+                      </FieldLabel>
                     </Field>
                   </div>
                 );

@@ -1,5 +1,5 @@
 "use client";
-import { getSubsQuery } from "@/queries/subscriptions.queries";
+import { getOngoingSubsQuery } from "@/queries/subscriptions.queries";
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
 
@@ -57,7 +57,7 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function SubsSummary() {
-  const { data: fetchedSubs = [], error, isLoading } = getSubsQuery();
+  const { data: fetchedSubs = [], error, isLoading } = getOngoingSubsQuery();
   console.log("SUBS: ", fetchedSubs);
   for (const elem of chartData) {
     elem.count = fetchedSubs.reduce(

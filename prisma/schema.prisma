@@ -14,6 +14,8 @@ model subscriptions {
   frequency       String   @db.VarChar(255)
   price           Decimal  @db.Decimal(10, 0)
   renewal_date    DateTime @db.Date
+  auto_renew      Boolean  @default(false)
+  free_trial      Boolean  @default(false)
   user_id         Int
   users           users    @relation(fields: [user_id], references: [user_id], onUpdate: Restrict, map: "user_id")
 

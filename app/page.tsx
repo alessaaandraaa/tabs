@@ -1,18 +1,32 @@
 import Image from "next/image";
-import AddSubForm from "@/components/add-sub-form";
-import SubsView from "@/components/subs-view";
-export default function Home() {
+import Link from "next/link";
+
+export default function Main() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <div className="min-w-5xl">
-        <div className="grid grid-cols-3 grid-rows-1 gap-4">
-          <div className="bg-zinc-50 border border-zinc-400 p-10 rounded-sm shadow-xl content-center">
-            <AddSubForm />
-          </div>
-          <div className="col-span-2 bg-zinc-50 border border-zinc-400 p-10 rounded-sm shadow-xl">
-            <SubsView />
+      <div className="flex items-center">
+        <div className="flex min-w-1/2 max-w-fit gap-5 m-10">
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            width={100}
+            height={50}
+            className="rounded-2xl shadow-md"
+          />
+          <div>
+            <h1 className="text-8xl font-extrabold">Welcome to Tabs!</h1>
+            <hr className="border" />
+            <p className="text-md font-extrabold ml-5">
+              a subscription tracker
+            </p>
           </div>
         </div>
+        <Link
+          href="/home"
+          className="bg-gray-500 text-white hover:bg-black rounded-2xl p-5 font-extrabold"
+        >
+          VISIT
+        </Link>
       </div>
     </div>
   );

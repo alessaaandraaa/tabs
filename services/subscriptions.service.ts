@@ -8,23 +8,58 @@ type Subs = {
   frequency: string;
   price: number;
   renewal_date: Date;
+  auto_renew: boolean;
+  free_trial: boolean;
 };
 
+const today = new Date();
+
 class SubscriptionsService {
-  async getSubscriptions() {
+  async getOngoingSubscriptions() {
     try {
       const subs = await prisma.subscriptions.findMany({
-        where: { user_id: 1 },
+        where: {
+          user_id: 1,
+          renewal_date: {
+            gt: today,
+          },
+        },
       });
       console.log("SUBSCRIPTIONS: ", subs);
       return subs;
     } catch (error) {
-      console.error("Error fetching subscriptions: ", error);
-      throw new Error("Could not fetch subscriptions.");
+      console.error("Error fetching ongoing subscriptions: ", error);
+      throw new Error("Could not fetch ongoing subscriptions.");
     }
   }
 
-  async addSubscription({ name, type, frequency, price, renewal_date }: Subs) {
+  async getExpiredSubscriptions() {
+    try {
+      const subs = await prisma.subscriptions.findMany({
+        where: {
+          user_id: 1,
+          renewal_date: {
+            lt: today,
+          },
+        },
+      });
+      console.log("SUBSCRIPTIONS: ", subs);
+      return subs;
+    } catch (error) {
+      console.error("Error fetching expired subscriptions: ", error);
+      throw new Error("Could not fetch expired subscriptions.");
+    }
+  }
+
+  async addSubscription({
+    name,
+    type,
+    frequency,
+    price,
+    renewal_date,
+    free_trial,
+    auto_renew,
+  }: Subs) {
     try {
       const newSub = await prisma.subscriptions.create({
         data: {
@@ -34,6 +69,8 @@ class SubscriptionsService {
           price,
           renewal_date: new Date(renewal_date),
           user_id: 1,
+          auto_renew,
+          free_trial,
         },
       });
       return newSub;
@@ -66,6 +103,8 @@ class SubscriptionsService {
     frequency,
     price,
     renewal_date,
+    auto_renew,
+    free_trial,
   }: EditPayload) {
     try {
       const updatedSub = await prisma.subscriptions.update({
@@ -76,6 +115,8 @@ class SubscriptionsService {
           frequency,
           price,
           renewal_date: new Date(renewal_date),
+          auto_renew,
+          free_trial,
         },
       });
     } catch (error) {

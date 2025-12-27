@@ -1,8 +1,4 @@
 "use client";
-import { getSubsQuery } from "@/queries/subscriptions.queries";
-import { TrendingUp } from "lucide-react";
-import { Pie, PieChart } from "recharts";
-
 import {
   Card,
   CardContent,
@@ -19,6 +15,7 @@ import {
 } from "@/components/ui/chart";
 import SubsChart from "./subs-chart";
 import SubInsights from "./subs-insights";
+import UpcomingPaymentsTab from "./upcoming-payments/upcoming-payments";
 
 export default function SubsSummary() {
   return (
@@ -51,9 +48,12 @@ export default function SubsSummary() {
         <div>
           <CardHeader className="items-center pb-0">
             <CardTitle className="text-fuchsia-900 text-2xl">
-              Upcoming Subscriptions
+              Upcoming Payments
             </CardTitle>
             <hr />
+            <CardContent className="p-0">
+              <UpcomingPaymentsTab />
+            </CardContent>
           </CardHeader>
         </div>
       </div>

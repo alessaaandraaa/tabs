@@ -12,15 +12,28 @@ type Subs = {
   frequency: string;
   price: number;
   renewal_date: Date;
+  free_trial: boolean;
+  auto_renew: boolean;
 };
 
 const STALE_TIME = 1000 * 60 * 5;
 
-export const getSubsQuery = () =>
+export const getOngoingSubsQuery = () =>
   useQuery<Subs[]>({
-    queryKey: ["subs"],
+    queryKey: ["ongoing_subs"],
     queryFn: async () => {
-      const response = await axios.get("/api/subscriptions");
+      const response = await axios.get("/api/subscriptions?status=ongoing");
+      console.log("RESPONSE: ", response);
+      return response.data.subs;
+    },
+    staleTime: STALE_TIME,
+  });
+
+export const getExpiredSubsQuery = () =>
+  useQuery<Subs[]>({
+    queryKey: ["expired_subs"],
+    queryFn: async () => {
+      const response = await axios.get("/api/subscriptions?status=expired");
       console.log("RESPONSE: ", response);
       return response.data.subs;
     },
@@ -35,13 +48,13 @@ export const useAddSubsQuery = () => {
       return response.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["subs"] });
+      queryClient.invalidateQueries({ queryKey: ["ongoing_subs"] });
     },
     onMutate: async (s) => {
-      await queryClient.cancelQueries({ queryKey: ["subs"] });
-      const prevSubs = queryClient.getQueryData<any[]>(["subs"]);
+      await queryClient.cancelQueries({ queryKey: ["ongoing_subs"] });
+      const prevSubs = queryClient.getQueryData<any[]>(["ongoing_subs"]);
       if (prevSubs) {
-        queryClient.setQueryData(["subs"], [...prevSubs, s]);
+        queryClient.setQueryData(["ongoing_subs"], [...prevSubs, s]);
       }
 
       return { prevSubs };
@@ -64,7 +77,8 @@ export const useDeleteSubsQuery = () => {
       return data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["subs"] });
+      queryClient.invalidateQueries({ queryKey: ["ongoing_subs"] });
+      queryClient.invalidateQueries({ queryKey: ["expired_subs"] });
     },
     onError: (error) => {
       console.error("Error deleting subscription:", error);
