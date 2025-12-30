@@ -2,12 +2,14 @@
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   SortingState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 
 import {
@@ -20,6 +22,7 @@ import {
 } from "@/components/ui/table";
 
 import { Button } from "../ui/button";
+import { TypeFilter } from "./sub-list-filter";
 import { useState } from "react";
 import { toast, Toaster } from "sonner";
 interface DataTableProps<TData, TValue> {
@@ -32,20 +35,27 @@ export function SubsList<TData, TValue>({
   data,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
   return (
-    <div>
+    <div className="cursor select-none">
+      <div>
+        <TypeFilter table={table} />
+      </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>

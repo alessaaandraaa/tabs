@@ -1,17 +1,5 @@
-import { AppWindowIcon, CodeIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SubsList from "@/components/sub-list";
+import SubsListMain from "@/components/sub-list";
 import SubsSummary from "@/components/subs-summary";
 import CalendarView from "./calendar-view";
 
@@ -28,7 +16,7 @@ export default function SubsView() {
           <SubsSummary />
         </TabsContent>
         <TabsContent value="list">
-          <SubsList />
+          <SubsListMain />
         </TabsContent>
         <TabsContent value="calendar">
           <CalendarView />

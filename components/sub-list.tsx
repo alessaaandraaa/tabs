@@ -1,7 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SubListActive from "./sub-list-active";
 import SubListExpired from "./sub-list-expired";
-export default function SubsList() {
+
+export default function SubsListMain() {
   return (
     <div className="flex w-full flex-col gap-6">
       <Tabs defaultValue="active">

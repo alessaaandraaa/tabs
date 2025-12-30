@@ -14,6 +14,7 @@ export const columns: ColumnDef<Subscriptions>[] = [
   {
     accessorKey: "type",
     header: "Type",
+    filterFn: "arrIncludesSome",
   },
   {
     accessorKey: "frequency",
